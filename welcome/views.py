@@ -19,6 +19,8 @@ def index(request):
         'count': PageView.objects.count()
     })
 
+def health(request):
+    """Takes an request as a parameter and gives the count of pageview objects as reponse"""
     import psycopg2
     import psycopg2.extras
     import datetime
@@ -31,8 +33,5 @@ def index(request):
         port="5432")
     conn.autocommit = True
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-    cur.execute("INSERT INTO sampletb (xxx) VALUES ('"+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"');")
-
-def health(request):
-    """Takes an request as a parameter and gives the count of pageview objects as reponse"""
+    cur.execute("INSERT INTO sampletb (xxx) VALUES ('"+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"');")    
     return HttpResponse(PageView.objects.count())
