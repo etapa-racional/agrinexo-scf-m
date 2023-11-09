@@ -29,7 +29,4 @@ conn = psycopg2.connect(
 conn.autocommit = True
 
 cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-while True:
-    cur.execute("INSERT INTO sampletb (xxx) VALUES ('"+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"');")
-    time.sleep(30)
-print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+cur.execute("INSERT INTO sampletb (xxx) VALUES ('"+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")+"');")
