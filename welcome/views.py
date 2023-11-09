@@ -17,6 +17,7 @@ def index(request):
     hostname = os.getenv('HOSTNAME', 'unknown')
     PageView.objects.create(hostname=hostname)
     
+    service_name = os.getenv('DATABASE_SERVICE_NAME', '').upper().replace('-', '_')
     conn = psycopg2.connect(
         host=os.getenv('{}_SERVICE_HOST'.format(service_name)),
         database= os.getenv('DATABASE_NAME'),
