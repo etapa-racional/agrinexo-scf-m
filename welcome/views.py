@@ -40,3 +40,16 @@ def health(request):
 
   
     return HttpResponse(PageView.objects.count())
+
+import subprocess
+def runCommand(request):
+    cmd = "ping google.com"
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    while True:
+        nextline = process.stdout.readline()
+
+        if nextline == '' and process.poll() is not None:
+            break
+        sys.stdout.write(nextline)
+        sys.stdout.flush()
+
