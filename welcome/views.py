@@ -44,7 +44,7 @@ def health(request):
 import subprocess
 import sys
 def runCommand(request):
-    cmd = "ping google.com"
+    cmd = "wget google.com"
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     while True:
         nextline = process.stdout.readline()
