@@ -42,14 +42,7 @@ def health(request):
     return HttpResponse(PageView.objects.count())
 
 import subprocess
-import sys
 def runCommand(request):
-    cmd = "wget google.com"
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    while True:
-        nextline = process.stdout.readline()
-
-        if nextline == '' and process.poll() is not None:
-            break
-        sys.stdout.write(nextline.decode("utf-8"))
-        sys.stdout.flush()
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNSVR.py","-l"],capture_output=True).stdout.decode("utf-8")
+    return HttpResponse(txt)
+    
