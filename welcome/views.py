@@ -51,6 +51,5 @@ def runCommand(request):
 
         if nextline == '' and process.poll() is not None:
             break
-        sys.stdout.write(nextline)
+        sys.stdout.write(nextline.decode("utf-8"))
         sys.stdout.flush()
-
