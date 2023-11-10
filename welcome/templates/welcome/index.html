@@ -322,7 +322,7 @@ Page views: {{ count }}
 <script type="text/javascript">
   function runCommand() {
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: '/runCommand',
         success: function(data) {
              $(".live-output").html(data);
