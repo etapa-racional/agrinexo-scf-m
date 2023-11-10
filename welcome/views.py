@@ -42,6 +42,7 @@ def health(request):
     return HttpResponse(PageView.objects.count())
 
 import subprocess
+import sys
 def runCommand(request):
     cmd = "ping google.com"
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
