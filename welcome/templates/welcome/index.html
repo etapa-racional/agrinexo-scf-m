@@ -299,7 +299,10 @@ $ git push</pre>
                     <li><a href="http://stackoverflow.com/questions/tagged/openshift">Stack Overflow questions for OpenShift</a></li>
                     <li><a href="http://git-scm.com/documentation">Git documentation</a></li>
                   </ul>
-
+<div class="output-panel">
+     <span class="live-output">OUTPUT HERE</span>
+</div>
+<button onclick="runCommand()">Run Command</button>
                 <h2>Request information</h2>
 <pre>
 Server hostname: {{ hostname }}
@@ -316,7 +319,17 @@ Page views: {{ count }}
           <div class="logo"><a href="https://www.openshift.com/"></a></div>
         </footer>
 </section>
-
+<script type="text/javascript">
+  function runCommand() {
+    $.ajax({
+        type: 'POST',
+        url: '/api/runCommand',
+        success: function(data) {
+             $(".live-output").html(data);
+        }
+    });
+}
+</script>
 
 </body>
 </html>
