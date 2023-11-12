@@ -2,6 +2,7 @@ import os
 from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 from . import database
 from .models import PageView
@@ -13,6 +14,11 @@ import time
 # Create your views here.
 
 def index(request):
+
+    if not request.user.is_authenticated:
+        return redirect(f"{settings.LOGIN_URL}?next={request.path}")
+
+
     """Takes an request object as a parameter and creates an pageview object then responds by rendering the index view."""
     hostname = os.getenv('HOSTNAME', 'unknown')
     PageView.objects.create(hostname=hostname)
@@ -38,9 +44,6 @@ def index(request):
 def health(request):
     """Takes an request as a parameter and gives the count of pageview objects as reponse"""
     return HttpResponse(PageView.objects.count())
-    
-def my_view(request):
-    return render(request, 'admin/preferences/preferences.html')
 
 import subprocess
 def runCommand(request):
