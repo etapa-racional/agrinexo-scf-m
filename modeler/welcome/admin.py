@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import PageView
 
-class CustomAdminSite(AdminSite):
+class CustomAdminSite(admin.AdminSite):
 
     def get_urls(self):
         custom_urls = [
@@ -14,7 +14,7 @@ class CustomAdminSite(AdminSite):
 site = CustomAdminSite()
 
 # you can register your models on this site object as usual, if needed
-site.register(Model, ModelAdmin)
+site.register(Model, admin.ModelAdmin)
 
 class PageViewAdmin(admin.ModelAdmin):
     list_display = ['hostname', 'timestamp']
