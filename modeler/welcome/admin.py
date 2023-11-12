@@ -1,7 +1,5 @@
 from django.contrib import admin
-from django.conf.urls import url
 from django.template.response import TemplateResponse
-from security.models import Security
 from .models import PageView
 
 class Modeler(admin.ModelAdmin):
