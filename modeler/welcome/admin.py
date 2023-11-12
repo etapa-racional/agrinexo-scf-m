@@ -4,32 +4,22 @@ from django.template.response import TemplateResponse
 from security.models import Security
 from .models import PageView
 
-# Register your models here.
+class Modeler(admin.ModelAdmin):
+    site_header = "Custom Admin Site header"
+    site_title = "Custom Admin Site title"
 
-@admin.register(Security)
-class SecurityAdmin(admin.ModelAdmin):
-
-    def get_urls(self):
-
-        # get the default urls
-        urls = super(SecurityAdmin, self).get_urls()
-
-        # define security urls
-        security_urls = [
-            url(r'^configuration/$', self.admin_site.admin_view(self.security_configuration))
-            # Add here more urls if you want following same logic
+    def get_urls(self): # 2.
+        urls = super().get_urls()
+        my_urls = [
+            path('custom_admin_view/',
+                self.admin_view(( # 3.
+                CustomAdminView.as_view(admin_site=self))), name='cav'),
         ]
+        return my_urls + urls # 4.
 
-        # Make sure here you place your added urls first than the admin default urls
-        return security_urls + urls
 
-    # Your view definition fn
-    def security_configuration(self, request):
-        context = dict(
-            self.admin_site.each_context(request), # Include common variables for rendering the admin template.
-            something="test",
-        )
-        return TemplateResponse(request, "configuration.html", context)
+admin_site = CustomAdminSite(name='myadmin') # 5.
+admin_site.register(MyModel)
 
 class PageViewAdmin(admin.ModelAdmin):
     list_display = ['hostname', 'timestamp']
