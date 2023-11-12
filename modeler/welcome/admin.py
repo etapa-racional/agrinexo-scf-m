@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.template.response import TemplateResponse
 from .models import PageView
 
-class Modeler(admin.ModelAdmin):
+class CustomAdminSite(admin.ModelAdmin):
     site_header = "Custom Admin Site header"
     site_title = "Custom Admin Site title"
 
