@@ -11,7 +11,7 @@ class CustomAdminSite(admin.AdminSite):
         return custom_urls + admin_urls  # custom urls must be at the beginning
 
 
-site = CustomAdminSite()
+site = CustomAdminSite(admin.AdminSite)
 
 # you can register your models on this site object as usual, if needed
 site.register()
