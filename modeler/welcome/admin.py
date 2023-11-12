@@ -14,7 +14,7 @@ class CustomAdminSite(admin.AdminSite):
 site = CustomAdminSite()
 
 # you can register your models on this site object as usual, if needed
-site.register(Model, admin.ModelAdmin)
+site.register()
 
 class PageViewAdmin(admin.ModelAdmin):
     list_display = ['hostname', 'timestamp']
