@@ -1,23 +1,20 @@
 from django.contrib import admin
-from django.template.response import TemplateResponse
 from .models import PageView
 
-class CustomAdminSite(admin.ModelAdmin):
-    site_header = "Custom Admin Site header"
-    site_title = "Custom Admin Site title"
+class CustomAdminSite(AdminSite):
 
-    def get_urls(self): # 2.
-        urls = super().get_urls()
-        my_urls = [
-            path('custom_admin_view/',
-                self.admin_view(( # 3.
-                CustomAdminView.as_view(admin_site=self))), name='cav'),
+    def get_urls(self):
+        custom_urls = [
+            path('admin/preferences/', self.admin_view(views.my_view)),
         ]
-        return my_urls + urls # 4.
+        admin_urls = super().get_urls()
+        return custom_urls + admin_urls  # custom urls must be at the beginning
 
 
-admin_site = CustomAdminSite(name='myadmin') # 5.
-admin_site.register(MyModel)
+site = CustomAdminSite()
+
+# you can register your models on this site object as usual, if needed
+site.register(Model, ModelAdmin)
 
 class PageViewAdmin(admin.ModelAdmin):
     list_display = ['hostname', 'timestamp']
