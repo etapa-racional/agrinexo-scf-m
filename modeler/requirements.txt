@@ -1,3 +1,4 @@
+pip==23.3.1
 django>=1.11,<1.12
 django-debug-toolbar==1.11.1
 gunicorn==19.5.0
