@@ -15,10 +15,6 @@ import time
 
 def index(request):
 
-    if not request.user.is_authenticated:
-        return redirect(f"{settings.LOGIN_URL}?next={request.path}")
-
-
     """Takes an request object as a parameter and creates an pageview object then responds by rendering the index view."""
     hostname = os.getenv('HOSTNAME', 'unknown')
     PageView.objects.create(hostname=hostname)
@@ -49,4 +45,7 @@ import subprocess
 def runCommand(request):
     txt = subprocess.run(["python3", "/var/opt/svr/AGNACNSVR.py","-l"],capture_output=True).stdout.decode("utf-8")
     return HttpResponse(txt)
-    
+
+def CreateDatabase(request):
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFDDB.py","-l"],capture_output=True).stdout.decode("utf-8")
+    return HttpResponse(txt)

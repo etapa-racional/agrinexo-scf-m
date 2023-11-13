@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^$', index),
     url(r'^health$', health),
     url(r'^runCommand$', runCommand),
+    url(r'^CreateDatabase$', CreateDatabase),
     url(r'^admin/', include(admin.site.urls)),
 ]
 
