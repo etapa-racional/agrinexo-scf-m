@@ -42,8 +42,24 @@ def health(request):
     return HttpResponse(PageView.objects.count())
 
 import subprocess
-def runCommand(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNSVR.py","-l"],capture_output=True).stdout.decode("utf-8")
+def runCommandAIV(request):
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNAIV.py","-l"],capture_output=True).stdout.decode("utf-8")
+    return HttpResponse(txt)
+
+def runCommandEIV(request):
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNEIV.py","-l"],capture_output=True).stdout.decode("utf-8")
+    return HttpResponse(txt)
+
+def runCommandGIV(request):
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNGIV.py","-l"],capture_output=True).stdout.decode("utf-8")
+    return HttpResponse(txt)
+    
+def runCommandMIV(request):
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNMIV.py","-l"],capture_output=True).stdout.decode("utf-8")
+    return HttpResponse(txt)
+    
+def runCommandNIV(request):
+    txt = subprocess.run(["python3", "/var/opt/svr/AGNACNNIV.py","-l"],capture_output=True).stdout.decode("utf-8")
     return HttpResponse(txt)
 
 def CreateDatabase(request):
