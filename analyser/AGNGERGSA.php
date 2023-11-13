@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS gerdut
     CONSTRAINT gerdut_unm UNIQUE (unm)
 );
 INSERT INTO gerdut (xxx,unm,dsc,psw,pin) VALUES (1,'. $preg_XXX .','. $preg_XXX .','.$_POST['g_PSS'].',0);';
+$result = pg_query($db, $initSQL);
 
 if ($g_END != "") {
     $p_AUT = " ";
