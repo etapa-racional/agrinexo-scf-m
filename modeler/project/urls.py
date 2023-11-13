@@ -2,7 +2,8 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from welcome.views import index, health, runCommandAIV, CreateDatabase
+from welcome.views import index, health, runCommandAIV, runCommandEIV, \
+    runCommandGIV, runCommandMIV, runCommandNIV, CreateDatabase
 
 urlpatterns = [
     # Examples:
