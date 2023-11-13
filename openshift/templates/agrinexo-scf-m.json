@@ -1,24 +1,24 @@
 {
   "kind": "Template",
-  "apiVersion": "v1",
+  "apiVersion": "template.openshift.io/v1",
   "metadata": {
-    "name": "django-psql-persistent",
+    "name": "agrinexo-scf-m",
     "annotations": {
-      "openshift.io/display-name": "Django + PostgreSQL",
-      "description": "An example Django application with a PostgreSQL database. For more information about using this template, including OpenShift considerations, see https://github.com/etapa-racional/agrinexo-scf-m/blob/master/README.md.",
+      "openshift.io/display-name": "AGRINEXO SCF",
+      "description": "Seasonal Climate Forecast Modeler and Analyser",
       "tags": "quickstart,python,django",
       "iconClass": "icon-python",
       "openshift.io/long-description": "This template defines resources needed to develop a Django based application, including a build configuration, application deployment configuration, and database deployment configuration.",
-      "openshift.io/provider-display-name": "Red Hat, Inc.",
+      "openshift.io/provider-display-name": "ETAPA RACIONAL",
       "openshift.io/documentation-url": "https://github.com/etapa-racional/agrinexo-scf-m",
-      "openshift.io/support-url": "https://access.redhat.com",
+      "openshift.io/support-url": "https://github.com/etapa-racional/agrinexo-scf-m/blob/master/README.md",
       "template.openshift.io/bindable": "false"
     }
   },
   "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/etapa-racional/agrinexo-scf-m/blob/master/README.md.",
   "labels": {
-      "template": "django-psql-persistent",
-      "app": "django-psql-persistent"
+      "template": "agrinexo-scf-m",
+      "app": "agrinexo-scf-m"
   },
   "objects": [
     {
@@ -109,8 +109,8 @@
             },
             "env": [
               {
-                  "name": "PIP_INDEX_URL",
-                  "value": "${PIP_INDEX_URL}"
+                  "name": "UPGRADE_PIP_TO_LATEST",
+                  "value": "true"
               }
             ]
           }
@@ -134,9 +134,23 @@
               "secret": "${GITHUB_WEBHOOK_SECRET}"
             }
           }
+        ]
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
         ],
-        "postCommit": {
-           "script": "./manage.py test"
+        "resources": {
+          "requests": {
+            "storage": "20Gi"
+          }
         }
       }
     },
@@ -160,7 +174,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "django-psql-persistent"
+                "agrinexo-scf-m"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -184,13 +198,27 @@
             }
           },
           "spec": {
+            "volumes": [
+              {
+                "name": "${NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${NAME}"
+                }
+              }
+            ],
             "containers": [
               {
-                "name": "django-psql-persistent",
+                "name": "agrinexo-scf-m",
                 "image": " ",
                 "ports": [
                   {
                     "containerPort": 8080
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "${NAME}-data",
+                    "mountPath": "/var/opt"
                   }
                 ],
                 "readinessProbe": {
@@ -420,6 +448,258 @@
           }
         }
       }
+    },
+    {
+      "kind": "BuildConfig",
+      "apiVersion": "build.openshift.io/v1",
+      "metadata": {
+        "name": "${PHPNAME}",
+        "annotations": {
+          "description": "Defines how to build the application",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        }
+      },
+      "spec": {
+        "source": {
+          "type": "Git",
+          "git": {
+            "uri": "${SOURCE_REPOSITORY_URL}",
+            "ref": "${SOURCE_REPOSITORY_REF}"
+          },
+          "contextDir": "${PHP_CONTEXT_DIR}"
+        },
+        "strategy": {
+          "type": "Source",
+          "sourceStrategy": {
+            "from": {
+              "kind": "ImageStreamTag",
+              "namespace": "${NAMESPACE}",
+              "name": "php:${PHP_VERSION}"
+            },
+            "env":  [
+              {
+                "name": "COMPOSER_MIRROR",
+                "value": "${COMPOSER_MIRROR}"
+              }
+            ]
+          }
+        },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${PHPNAME}:latest"
+          }
+        },
+        "triggers": [
+          {
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "${GITHUB_WEBHOOK_SECRET}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${PHPNAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${PHPNAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "route.openshift.io/v1",
+      "metadata": {
+        "name": "${PHPNAME}"
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${PHPNAME}"
+        }
+      }
+    },
+    {
+      "kind": "ImageStream",
+      "apiVersion": "image.openshift.io/v1",
+      "metadata": {
+        "name": "${PHPNAME}",
+        "annotations": {
+          "description": "Keeps track of changes in the application image"
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${PHPNAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "1Gi"
+          }
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "apps.openshift.io/v1",
+      "metadata": {
+        "name": "${PHPNAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "agrinexo-scf-a"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${PHPNAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${PHPNAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${PHPNAME}",
+            "labels": {
+              "name": "${PHPNAME}"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "${PHPNAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${PHPNAME}"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "agrinexo-scf-a",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "${PHPNAME}-data",
+                    "mountPath": "/var/opt"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 3,
+                  "periodSeconds": 60,
+                  "httpGet": {
+                    "path": "/",
+                    "port": 8080
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 3,
+                  "initialDelaySeconds": 30,
+                  "periodSeconds": 60,
+                  "httpGet": {
+                    "path": "/",
+                    "port": 8080
+                  }
+                },
+                "env": [
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_ENGINE",
+                    "value": "${DATABASE_ENGINE}"
+                  },
+                  {
+                    "name": "DATABASE_NAME",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "DATABASE_USER",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-user"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DATABASE_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef" : {
+                        "name" : "${NAME}",
+                        "key" : "database-password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "OPCACHE_REVALIDATE_FREQ",
+                    "value": "0"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "parameters": [
@@ -428,7 +708,14 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "django-psql-persistent"
+      "value": "agrinexo-scf-m"
+    },
+    {
+      "name": "PHPNAME",
+      "displayName": "PHP Name",
+      "description": "The name assigned to all of the frontend PHP objects defined in this template.",
+      "required": true,
+      "value": "agrinexo-scf-a"
     },
     {
       "name": "NAMESPACE",
@@ -440,9 +727,16 @@
     {
       "name": "PYTHON_VERSION",
       "displayName": "Version of Python Image",
-      "description": "Version of Python image to be used (3.6-ubi8, 3.8-ubi7, 3.8-ubi8, or latest).",
-      "value": "3.8-ubi8",
+      "description": "Version of Python image to be used (3.9-ubi8 or latest).",
+      "value": "3.9-ubi8",
       "required": true
+    },
+    {
+      "name": "PHP_VERSION",
+      "displayName": "PHP Version",
+      "description": "Version of PHP image to be used (7.3-ubi7, 7.4-ubi8, or latest).",
+      "required": true,
+      "value": "7.4-ubi8"
     },
     {
       "name": "POSTGRESQL_VERSION",
@@ -487,6 +781,13 @@
     {
       "name": "CONTEXT_DIR",
       "displayName": "Context Directory",
+      "value": "modeler",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+    },
+    {
+      "name": "PHP_CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "value": "analyser",
       "description": "Set this to the relative path to your project if it is not in the root of your repository."
     },
     {
@@ -494,13 +795,6 @@
       "displayName": "Application Hostname",
       "description": "The exposed hostname that will route to the Django service, if left blank a value will be defaulted.",
       "value": ""
-    },
-    {
-      "name": "GITHUB_WEBHOOK_SECRET",
-      "displayName": "GitHub Webhook Secret",
-      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
-      "generate": "expression",
-      "from": "[a-zA-Z0-9]{40}"
     },
     {
       "name": "DATABASE_SERVICE_NAME",
@@ -544,12 +838,6 @@
       "description": "Set this to a long random string.",
       "generate": "expression",
       "from": "[\\w]{50}"
-    },
-    {
-      "name": "PIP_INDEX_URL",
-      "displayName": "Custom PyPi Index URL",
-      "description": "The custom PyPi index URL",
-      "value": ""
     }
   ]
 }
