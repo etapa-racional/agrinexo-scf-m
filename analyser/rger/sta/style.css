@@ -1,0 +1,47 @@
+#BorderContainer {
+	width: 100%; height: 100%;
+}
+#topBar {
+	margin: 0; padding: 0; border: none;
+}
+#btSection {
+	padding: 5px;
+}
+#gridSection {
+	height: 100%; width: 100%;
+}
+span.dojoxGridNoData {
+	color: red;
+}
+
+h2 {
+	font-size: 2.2em;
+	margin: 0; padding: 0;
+}
+ #editRecordDialog {
+
+ }
+:focus { outline: none; }
+
+.pageOverlay {
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1001;
+    display: block;
+}
+
+#loadingOverlay {
+    background:  #fff url('../dojo-release-1.10.4/dijit/themes/claro/images/loadingAnimation.gif') no-repeat 20px 35px;
+}
+
+.loadingMessage {
+    padding: 40px;
+    color: #999;
+}
+
+#mnuNew, #mnuEdit, #mnuDelete, #mnuExport, #mnuPrint, #editOk, #editCancel {
+     width: 75px;
+}
