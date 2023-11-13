@@ -122,7 +122,7 @@
                     postSTR += "\n</HPRM>";
                     postSTR += "\n</HQUERY>\n";
                     $.ajax({
-                        url: "../app/AGNSCFDLK.php",
+                        url: "AGNSCFDLK.php",
                         data: postSTR,
                         type: 'POST',
                         contentType: "application/xml",

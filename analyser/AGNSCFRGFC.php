@@ -205,7 +205,7 @@
             chart.render();
 
 
-            $.getJSON('../app/AGNSCFRGF.php?grf=a&det=' + escapeHtml($("#param_DET").val()) + "&fsr=" + escapeHtml($("#param_FSR").val()), function (response) {
+            $.getJSON('AGNSCFRGF.php?grf=a&det=' + escapeHtml($("#param_DET").val()) + "&fsr=" + escapeHtml($("#param_FSR").val()), function (response) {
                 chart.updateSeries([
                     {
                         type: 'line',
@@ -275,7 +275,7 @@
             chartrf.render();
 
 
-            $.getJSON('../app/AGNSCFRGF.php?grf=rf&det=' + escapeHtml($("#param_DET").val()) + "&fsr=" + escapeHtml($("#param_FSR").val()), function (response) {
+            $.getJSON('AGNSCFRGF.php?grf=rf&det=' + escapeHtml($("#param_DET").val()) + "&fsr=" + escapeHtml($("#param_FSR").val()), function (response) {
                 chartrf.updateSeries([
                     {
                         type: 'line',
@@ -354,7 +354,7 @@
             chartan.render();
 
 
-            $.getJSON('../app/AGNSCFRGF.php?grf=an&det=' + escapeHtml($("#param_DET").val()) + "&fsr=" + escapeHtml($("#param_FSR").val()), function (response) {
+            $.getJSON('AGNSCFRGF.php?grf=an&det=' + escapeHtml($("#param_DET").val()) + "&fsr=" + escapeHtml($("#param_FSR").val()), function (response) {
                 chartan.updateSeries([
                     {
                         type: 'line',

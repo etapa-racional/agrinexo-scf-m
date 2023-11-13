@@ -152,13 +152,13 @@
                 lmap.removeLayer(ALayer);
                 console.log("A removed");
             };
-            $.getJSON("../app/AGNSCFDLK.php?map=mapg", function (data) {
+            $.getJSON("AGNSCFDLK.php?map=mapg", function (data) {
                 ALayer = L.geoJson(data).addTo(lmap);
             })  ;
             if (BLayer !== null) {
                 lmap.removeLayer(BLayer);
             };
-            $.getJSON("../app/AGNSCFDLK.php?map=map", function (data) {
+            $.getJSON("AGNSCFDLK.php?map=map", function (data) {
                 BLayer = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(lmap);
             })
         }
@@ -187,7 +187,7 @@
             postSTR += "\n</HPRM>";
             postSTR += "\n</HQUERY>\n";
             $.ajax({
-                url: "../app/AGNSCFDLK.php",
+                url: "AGNSCFDLK.php",
                 data: postSTR,
                 type: 'POST',
                 contentType: "application/xml",
