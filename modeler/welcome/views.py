@@ -43,7 +43,8 @@ def health(request):
 
 import subprocess
 def runCommandAIV(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFAIV.py","-l"],capture_output=True).stdout.decode("utf-8")
+    subprocess.Popen(["/var/opt/svr/run.sh &"], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
+    txt = "OK"
     return HttpResponse(txt)
 
 def runCommandEIV(request):
