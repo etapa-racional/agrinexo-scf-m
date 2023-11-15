@@ -15,6 +15,5 @@ def ConnectDatabase():
     return conn
 
 def GetBasePath():
-    baspath = str(os.path.realpath(__file__))
-    baspath = baspath[0:len(baspath)-16]
+    baspath = "var/opt/"
     return baspath

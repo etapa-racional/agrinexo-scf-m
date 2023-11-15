@@ -42,27 +42,7 @@ def health(request):
     return HttpResponse(PageView.objects.count())
 
 import subprocess
-def runCommandAIV(request):
-    subprocess.Popen(["/var/opt/svr/run.sh &"], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
+def runCommandUPD(request):
+    subprocess.Popen(["/opt/app-root/src/agrinexo-scf-update.sh &"], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
     txt = "OK"
-    return HttpResponse(txt)
-
-def runCommandEIV(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFEIV.py","-l"],capture_output=True).stdout.decode("utf-8")
-    return HttpResponse(txt)
-
-def runCommandGIV(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFGIV.py","-l"],capture_output=True).stdout.decode("utf-8")
-    return HttpResponse(txt)
-    
-def runCommandMIV(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFMIV.py","-l"],capture_output=True).stdout.decode("utf-8")
-    return HttpResponse(txt)
-    
-def runCommandNIV(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFNIV.py","-l"],capture_output=True).stdout.decode("utf-8")
-    return HttpResponse(txt)
-
-def CreateDatabase(request):
-    txt = subprocess.run(["python3", "/var/opt/svr/AGNSCFDDB.py","-l"],capture_output=True).stdout.decode("utf-8")
     return HttpResponse(txt)

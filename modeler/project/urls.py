@@ -2,8 +2,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from welcome.views import index, health, runCommandAIV, runCommandEIV, \
-    runCommandGIV, runCommandMIV, runCommandNIV, CreateDatabase
+from welcome.views import index, health, runCommandUPD
 
 urlpatterns = [
     # Examples:
@@ -12,12 +11,7 @@ urlpatterns = [
 
     url(r'^$', index),
     url(r'^health$', health),
-    url(r'^runCommandAIV$', runCommandAIV),
-    url(r'^runCommandEIV$', runCommandEIV),
-    url(r'^runCommandGIV$', runCommandGIV),
-    url(r'^runCommandMIV$', runCommandMIV),
-    url(r'^runCommandNIV$', runCommandNIV),
-    url(r'^CreateDatabase$', CreateDatabase),
+    url(r'^runCommandUPD$', runCommandUPD),
     url(r'^admin/', include(admin.site.urls)),
 ]
 

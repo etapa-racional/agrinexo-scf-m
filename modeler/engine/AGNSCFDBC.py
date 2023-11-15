@@ -112,33 +112,6 @@ CREATE TABLE IF NOT EXISTS csvrgg (
   CONSTRAINT csvrgg_pkey PRIMARY KEY (xxx)
 );
 CREATE INDEX IF NOT EXISTS csvrgg_mmm ON csvrgg USING btree (mmm ASC NULLS LAST);
-      """
-
-    try:
-        cur.execute(sqlcdm)
-    except psycopg2.Error:
-        print(sqlcdm)
-        quit()
-
-def ResetDatabase(conn):
-
-    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    sqlcdm = """
-TRUNCATE csvdfc CASCADE;
-
-TRUNCATE csvdgg CASCADE;
-
-TRUNCATE csvddf CASCADE;
-
-TRUNCATE csvmfc CASCADE; 
-
-TRUNCATE csvmgm CASCADE;
-
-TRUNCATE csvmgg CASCADE;
-
-TRUNCATE csvrgm CASCADE;
-      
-TRUNCATE csvrgg CASCADE;
 
 INSERT INTO csvdgg (rfr) VALUES ('LTN90000LNO180000'),
                 ('LTN90000LNO135000'),
@@ -189,4 +162,3 @@ INSERT INTO csvdgg (rfr) VALUES ('LTN90000LNO180000'),
         quit()
 
 CreateDatabase(AGNSCFCFG.ConnectDatabase())
-ResetDatabase(AGNSCFCFG.ConnectDatabase())
