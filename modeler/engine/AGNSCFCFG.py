@@ -15,5 +15,5 @@ def ConnectDatabase():
     return conn
 
 def GetBasePath():
-    baspath = "var/opt/"
+    baspath = "/var/opt/"
     return baspath

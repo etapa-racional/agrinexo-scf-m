@@ -43,6 +43,6 @@ def health(request):
 
 import subprocess
 def runCommandUPD(request):
-    subprocess.Popen(["/opt/app-root/src/agrinexo-scf-update.sh &"], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
+    subprocess.Popen(["python3 /opt/app-root/src/agrinexo-scf-update.py &"], shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
     txt = "OK"
     return HttpResponse(txt)
