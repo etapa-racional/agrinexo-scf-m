@@ -46,11 +46,11 @@
                 {field: "fsr", title: "Forecast Source", width: 90},
                 {field: "tgt", title: "TGT", width: 90, visible: false},
                 {field: "ori", title: "ORI", width: 90, visible: false},
-                {field: "mfc", title: "Forecast Average", width: 130},
-                {field: "vfr", title: "Observed Average", width: 130},
-                {field: "efc", title: "Forecast Mean Absolute Error", width: 130},
-                {field: "pfc", title: "Anomaly Correlation Coefficient", width: 130},
-                {field: "enm", title: "Observed Mean Absolute Deviation", width: 130}, {}
+                {field: "mfc", title: "Forecast Average", width: 130, hozAlign: "right"},
+                {field: "vfr", title: "Observed Average", width: 130, hozAlign: "right"},
+                {field: "efc", title: "Forecast Mean Absolute Error", width: 130, hozAlign: "right"},
+                {field: "pfc", title: "Anomaly Correlation Coefficient", width: 130, hozAlign: "right"},
+                {field: "enm", title: "Observed Mean Absolute Deviation", width: 130,hozAlign: "right"}, {}
             ],
             ajaxURL: "AGNSCFRGL.php?ACTION=X",
         });

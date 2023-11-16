@@ -36,16 +36,8 @@ date_default_timezone_set("Europe/Lisbon");
 $g_SEXP = 3600*24;
 $d_SVK = "TYSYHBR";
 
-$servername = getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST");
-$g_DBN =  getenv("DATABASE_NAME");
-$username = getenv("DATABASE_USER");
-$password = getenv("DATABASE_PASSWORD");
+require("AGNGERCFG.php");
 $db = pg_pconnect("host=". $servername ." dbname=". $g_DBN ." user=".$username ." password=".$password);
-
-
-
-
-
 $preg_XXX = pg_escape_string($db,$_POST['preg_XXX']);
 $g_PSS = pg_escape_string($db,$_POST['g_PSS']);
 $g_PVF = $_POST['g_PVF'];
@@ -62,8 +54,8 @@ CREATE TABLE IF NOT EXISTS gerdut
     CONSTRAINT gerdut_pkey PRIMARY KEY (xxx),
     CONSTRAINT gerdut_unm UNIQUE (unm)
 );
-INSERT INTO gerdut (xxx,unm,dsc,psw,pin) VALUES (1,'. $preg_XXX .','. $preg_XXX .','.$_POST['g_PSS'].',0);';
-$result = pg_query($db, $initSQL);
+INSERT INTO gerdut (xxx,unm,dsc,psw,pin) VALUES (1,\''. $preg_XXX .'\',\''. $preg_XXX .'\',\''.$g_PSS.'\',0);';
+@pg_query($db, $initSQL);
 
 if ($g_END != "") {
     $p_AUT = " ";

@@ -1,3 +1,6 @@
+<?php
+include "AGNGERGSX.php";
+?>
 <!doctype html>
 <html lang="pt">
 <head>
@@ -29,19 +32,18 @@
         display: inline-block;
     }
     .ui-dialog { z-index: 1000 !important ;}
-    .k-listview-content {
-        overflow: hidden;
-    }
 </style>
+<input type="hidden" name="edit_record_dest_xxx" id="edit_record_dest_xxx" value="0">
+<input type="hidden" name="edit_record_orig_xxx" id="edit_record_orig_xxx">
 <div style="width:calc(100%); height: calc(100%);">
     <div id="lmap"></div>
 </div>
 <div id="agnfieldDialog" style="display: none; width: 100%; height: 100%;">
     <div id="divrpt">
-        <button type="button" id="btnVSR" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">
+        <button type="button" id="btnVSR">
             Seasonal Forecast
         </button>
-        <button type="button" id="btnWSR" class="k-button k-button-solid-base k-button-solid k-button-md k-rounded-md">
+        <button type="button" id="btnWSR">
             Forecast Skill
         </button>
         <hr>
@@ -101,7 +103,7 @@
             agnfieldAction('r', e.sourceTarget.feature.properties.dws);
         }
 
-<?php if ($g_UNM==""): ?>
+<?php echo "//$p_AUT\n"; if ($p_AUT!=""): ?>
         lmap.pm.addControls({
             position: 'topleft',
             drawControls: false,
@@ -134,17 +136,112 @@
             var feature = layer.toGeoJSON();
             console.log(feature.geometry.coordinates);
             curmkr = feature.geometry.coordinates;
-            //lpolygonClose(feature.geometry.coordinates);
-            dialog.dialog("option", "maxHeight", 200);
-            dialog.attr('title', 'Add Seasonal Climate Forecast').dialog();
-            dialog.dialog("open");
-
-            $("#divrpt").hide();
-            $("#frmrpt").attr('src', "AGNSCFDLKC.php");
-
+            editOk();
             lmap.pm.Draw.disable();
             lmap.removeLayer(e.layer);
         });
+
+
+        function onCompleteCUD(jqXHR, textStatus) {
+            if (jqXHR.status === 200) {
+                //onRefresh();
+                refetch();
+            } else {
+                var msg = 'Requested operation not completed.';
+                msg = msg + ' [' + jqXHR.status + "-" + textStatus + ": " + jqXHR.responseText + ']';
+                alertmsg(msg);
+            }
+        }
+
+        var ptxdataSource=[];
+
+        function escapeHtml(unsafe) {
+            if (unsafe === undefined)
+                return unsafe;
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function editOk(e) {
+            lpolygonClose()
+            var postSTR = "<HQUERY>\n<HKEY/>\n<HUSR/>\n<HDBN/>";
+            postSTR += "\n<HACT>S20ACNDLK-INSACNDLK</HACT>";
+            postSTR += "\n<HPRM>\n<ACNDLK>\n";;
+            postSTR += "<DSC>" + escapeHtml($("#edit_record_DSC").val()) + "</DSC>\n";
+            postSTR += "</ACNDLK>";
+            postSTR += "\n<detail>";
+            postSTR += "\n<SENMOPS>";
+            for (n = 0; n < ptxdataSource.length; n++) {
+                postSTR += "\n<SENMOP>\n";
+                postSTR += "<MMM>" + $("#edit_record_dest_xxx").val() + "</MMM>\n";
+                if (ptxdataSource.length > 0) {
+                    if (ptxdataSource[n].xxx !== undefined) {
+                        postSTR += "<XXX>" + escapeHtml(ptxdataSource[n].xxx) + "</XXX>\n";
+                    }
+                }
+                if (ptxdataSource.length > 0) {
+                    if (ptxdataSource[n].IDP !== undefined) {
+                        postSTR += "<IDP>" + escapeHtml(ptxdataSource[n].IDP) + "</IDP>\n";
+                    }
+                }
+                if (ptxdataSource.length > 0) {
+                    if (ptxdataSource[n].PTX !== undefined) {
+                        postSTR += "<PTX>" + escapeHtml(ptxdataSource[n].PTX) + "</PTX>\n";
+                    }
+                }
+                if (ptxdataSource.length > 0) {
+                    if (ptxdataSource[n].PTY !== undefined) {
+                        postSTR += "<PTY>" + escapeHtml(ptxdataSource[n].PTY) + "</PTY>\n";
+                    }
+                }
+                postSTR += "</SENMOP>\n";
+            }
+            postSTR += "</SENMOPS>";
+            postSTR += "\n</detail>";
+            postSTR += "\n</HPRM>";
+            postSTR += "\n</HQUERY>\n";
+            $.ajax({
+                url: "AGNSCFDLK.php",
+                data: postSTR,
+                type: 'POST',
+                contentType: "application/xml",
+                dataType: "text/xml",
+                complete: onCompleteCUD
+            })
+        }
+
+        function lpolygonClose() {
+            e=curmkr;
+            console.log(e)
+            ptxdataSource.push({
+                IDP: "0",
+                PTX: e[0].toString(),
+                PTY: e[1].toString()
+            });
+            ptxdataSource.push({
+                IDP: "0",
+                PTX: (e[0] + 0.0001).toString(),
+                PTY: (e[1] + 0.0001).toString()
+            });
+            ptxdataSource.push({
+                IDP: "0",
+                PTX: e[0].toString(),
+                PTY: (e[1] + 0.0001).toString()
+            });
+            ptxdataSource.push({
+                IDP: "0",
+                PTX: e[0].toString(),
+                PTY: e[1].toString()
+            });
+            $("#edit_record_orig_xxx").val("");
+            $("#edit_record_dest_xxx").val("");
+
+        };
+
 <?php  endif; ?>
 
         function refetch() {

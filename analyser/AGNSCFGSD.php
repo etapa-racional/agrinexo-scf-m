@@ -31,9 +31,9 @@ function pfx($value){
 }
 
 function varLog($fcontent){
-
+	global $logpath;
 	$fcontent ="[" . time() . "] " . $fcontent . "\n";
-	$pubfiledir="/var/opt/analyser/";
+	$pubfiledir=$logpath;
 	$pubfiletitle="log.txt";
 	$filename = $pubfiledir . $pubfiletitle;
 	if (!$handle = fopen($filename, "ab"))

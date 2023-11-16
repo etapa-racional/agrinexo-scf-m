@@ -56,7 +56,7 @@
         <tr>
         <tr>
             <td></td>
-            <td>Forecast Source (A)AGRINEXO/(E)CMWF/(N)CEP/Ensemble (B) A+N/ Ensemble (C) E+B</td>
+            <td>Forecast Source (A)AGRINEXO / (E)CMWF / (N)CEP / Ensemble (B) A+N / Ensemble (C) E+B</td>
             <td><input id="param_FSR" readonly style="width: 100%; max-width: 110px;"/>
             </td>
             </td>
@@ -75,17 +75,17 @@
         <table cellspacing="4" cellpadding="4" style="width: 100%;">
             <tr>
                 <td>
-                    <div style="display: inline-block; width: 150px;"><label for="edit_param_FSR">Forecast Source
-                            (E)CMWF/(N)CEP</label>
+                    <div style="display: inline-block;"><label for="edit_param_FSR">
+                            Forecast Source (A)AGRINEXO / (E)CMWF / (N)CEP/ Ensemble (B) A+N / Ensemble (C) E+B</label>
                     </div>
-                    <input type="text" class="k-textbox" name="edit_param_FSR" id="edit_param_FSR"
+                    <input type="text" name="edit_param_FSR" id="edit_param_FSR"
                            style="width: 100%; max-width: 110px;"/>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" align="right">
-                    <button id="paramsOk" jsId="paramsOk" type="button">OK</button>
-                    <button id="paramsCancel" jsId="paramsCancel" type="button">Cancel</button>
+                    <button id="paramsOk" type="button">OK</button>
+                    <button id="paramsCancel" type="button">Cancel</button>
                 </td>
             </tr>
         </table>
@@ -182,21 +182,25 @@
                 },
                 yaxis: [
                     {
-                        seriesName: 'TME - Average Mean Temperature'
+                        seriesName: 'TME - Average Mean Temperature',
+                        title: {
+                            text: 'TME,TMX and TMI (ºC)'
+                        }
                     },
                     {
-                        seriesName: 'TME - Average Mean Temperature'
+                        seriesName: 'TME - Average Mean Temperature',
+                        show: false
                     },
                     {
-                        seriesName: 'TME - Average Mean Temperature'
+                        seriesName: 'TME - Average Mean Temperature',
+                        show: false
                     },
                     {
                         opposite: true,
-                        seriesName: 'PRC - Average Precipitation'
-                    },
-                    {
-                        opposite: true,
-                        seriesName: 'PRC - Average Precipitation'
+                        seriesName: 'PRC - Average Precipitation',
+                        title: {
+                            text: 'PRC (mm/month)'
+                        }
                     }
                 ]
             };
@@ -252,21 +256,25 @@
                 },
                 yaxis: [
                     {
-                        seriesName: 'TME - Average Mean Temperature'
+                        seriesName: 'TME - Average Mean Temperature',
+                        title: {
+                            text: 'TME,TMX and TMI (ºC)'
+                        }
                     },
                     {
-                        seriesName: 'TME - Average Mean Temperature'
+                        seriesName: 'TME - Average Mean Temperature',
+                        show: false
                     },
                     {
-                        seriesName: 'TME - Average Mean Temperature'
+                        seriesName: 'TME - Average Mean Temperature',
+                        show: false
                     },
                     {
                         opposite: true,
-                        seriesName: 'PRC - Average Precipitation'
-                    },
-                    {
-                        opposite: true,
-                        seriesName: 'PRC - Average Precipitation'
+                        seriesName: 'PRC - Average Precipitation',
+                        title: {
+                            text: 'PRC (mm/month)'
+                        }
                     }
                 ]
             };
@@ -341,11 +349,6 @@
                         title: {
                             text: 'PRC (mm/month)'
                         }
-                    },
-                    {
-                        opposite: true,
-                        seriesName: 'PRC - Average Precipitation',
-                        show: false
                     }
                 ]
             };
