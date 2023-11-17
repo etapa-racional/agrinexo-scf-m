@@ -134,4 +134,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 INTERNAL_IPS = ['127.0.0.1']
 
-CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?openshiftapps\.com$', )
+CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?openshiftapps\.com$', r'^(http?://)?(\w+\.)?openshiftapps\.com$',)
