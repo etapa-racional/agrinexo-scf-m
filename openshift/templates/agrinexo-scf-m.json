@@ -210,6 +210,13 @@
               {
                 "name": "agrinexo-scf-m",
                 "image": " ",
+                "lifecycle": {
+                  "postStart":{
+                    "exec":{
+                      "command": ["/bin/sh", "-c", "pyhton3 agrinexo-scf-update.py"]
+                    }
+                  }
+                },
                 "ports": [
                   {
                     "containerPort": 8080

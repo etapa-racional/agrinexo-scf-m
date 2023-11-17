@@ -18,17 +18,6 @@ def Forecast(baspath,conn):
                 "ORDER BY dws " +
                 "LIMIT 1;")
     res = cur.fetchone()
-    if res is None:
-        cur.execute("SELECT csvdfc.rfr as dws, csvdfc.xxx as xxxdfc FROM csvdfc " +
-                    "INNER JOIN csvdgm ON csvdgm.rfr=csvdfc.rfr " +
-                    "WHERE csvdfc.sta IS NULL " +
-                    "AND csvdgm.stt IS TRUE " +
-                    "AND csvdfc.ste IS TRUE " +
-                    "AND csvdfc.stn IS TRUE " +
-                    "ORDER BY dws " +
-                    "LIMIT 1;")
-        res = cur.fetchone()
-        print("cache csvddf")
     if res is not None:
         mmmdws = res['xxxdfc']
         dws = res['dws']
