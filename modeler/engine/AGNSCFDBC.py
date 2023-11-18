@@ -64,6 +64,11 @@ CREATE TABLE IF NOT EXISTS csvmfc (
   CONSTRAINT csvmfc_pkey PRIMARY KEY (xxx)
 );
 CREATE INDEX IF NOT EXISTS csvmfc_mmm ON csvmfc USING btree (mmm ASC NULLS LAST);
+ALTER TABLE IF EXISTS csvmfc
+    ADD CONSTRAINT csvmfc_mmmtmsftmfsr UNIQUE (mmm, tms, ftm, fsr);
+CREATE UNIQUE INDEX IF NOT EXISTS csvmfc_mmmtmsftmfsr_idx
+    ON csvmfc USING btree
+    (mmm ASC NULLS LAST, tms ASC NULLS LAST, ftm ASC NULLS LAST, fsr ASC NULLS LAST);
 
 CREATE TABLE IF NOT EXISTS csvmgm (
   xxx serial NOT NULL,
@@ -75,7 +80,10 @@ CREATE TABLE IF NOT EXISTS csvmgm (
   tms timestamp without time zone NOT NULL,
   CONSTRAINT csvmgm_pkey PRIMARY KEY (xxx)
 );
+ALTER TABLE IF EXISTS csvmgm
+    ADD CONSTRAINT csvmgm_mmmtms UNIQUE (mmm, tms);
 CREATE INDEX IF NOT EXISTS csvmgm_mmm ON csvmgm USING btree (mmm ASC NULLS LAST);
+
 
 CREATE TABLE IF NOT EXISTS csvmgg (
   xxx serial NOT NULL,
@@ -113,46 +121,6 @@ CREATE TABLE IF NOT EXISTS csvrgg (
 );
 CREATE INDEX IF NOT EXISTS csvrgg_mmm ON csvrgg USING btree (mmm ASC NULLS LAST);
 
-INSERT INTO csvdgg (rfr) VALUES ('LTN90000LNO180000'),
-                ('LTN90000LNO135000'),
-                ('LTN90000LNO090000'),
-                ('LTN90000LNO045000'),
-                ('LTN90000LNE000000'),
-                ('LTN90000LNE045000'),
-                ('LTN90000LNE090000'),
-                ('LTN90000LNE135000'),
-                ('LTN45000LNO180000'),
-                ('LTN45000LNO135000'),
-                ('LTN45000LNO090000'),
-                ('LTN45000LNO045000'),
-                ('LTN45000LNE000000'),
-                ('LTN45000LNE045000'),
-                ('LTN45000LNE090000'),
-                ('LTN45000LNE135000'),
-                ('LTN00000LNO180000'),
-                ('LTN00000LNO135000'),
-                ('LTN00000LNO090000'),
-                ('LTN00000LNO045000'),
-                ('LTN00000LNE000000'),
-                ('LTN00000LNE045000'),
-                ('LTN00000LNE090000'),
-                ('LTN00000LNE135000'),
-                ('LTS45000LNO180000'),
-                ('LTS45000LNO135000'),
-                ('LTS45000LNO090000'),
-                ('LTS45000LNO045000'),
-                ('LTS45000LNE000000'),
-                ('LTS45000LNE045000'),
-                ('LTS45000LNE090000'),
-                ('LTS45000LNE135000'),
-                ('LTS90000LNO180000'),
-                ('LTS90000LNO135000'),
-                ('LTS90000LNO090000'),
-                ('LTS90000LNO045000'),
-                ('LTS90000LNE000000'),
-                ('LTS90000LNE045000'),
-                ('LTS90000LNE090000'),
-                ('LTS90000LNE135000');
       """
 
     try:

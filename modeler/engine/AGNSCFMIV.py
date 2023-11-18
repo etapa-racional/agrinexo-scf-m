@@ -90,7 +90,7 @@ def ImportGlobalGrid1x1(baspath,conn):
     localpath = baspath + ER4CSVINVFPR[0]["climaticfile"]
     dsp.append(nc.Dataset(localpath))
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-    for iin in range(0,5,1):
+    for iin in range(0,1,1):
         cur.execute("SELECT csvdgm.xxx as xxx, csvdgm.rfr as rfr FROM csvdgm INNER JOIN acndlk "+
                     "ON csvdgm.rfr=acndlk.dws WHERE csvdgm.stt IS NULL ORDER BY csvdgm.rfr LIMIT 1;")
         res = cur.fetchone()

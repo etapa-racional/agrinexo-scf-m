@@ -149,25 +149,6 @@ if ($ACTION == "S20ACNDLK-INSACNDLK") {
     $lkkey = "";
     varLog($ptsx);
     varLog(str_pad((intval($ptsx * -10)), 3, "0", STR_PAD_LEFT));
-    if ($ptsy >= 0) {
-        $lkkey .= 'LTN' . str_pad((round($ptsy / 0.25) * 0.25 * 1000), 5, "0", STR_PAD_LEFT);
-    } else {
-        $lkkey .= 'LTS' . str_pad((round($ptsy / -0.25) * 0.25 * 1000), 5, "0", STR_PAD_LEFT);
-    }
-    if ($ptsx >= 0) {
-        $lkkey .= 'LNE' . str_pad((round($ptsx / 0.25) * 0.25 * 1000), 6, "0", STR_PAD_LEFT);
-    } else {
-        $lkkey .= 'LNO' . str_pad((round($ptsx / -0.25) * 0.25 * 1000), 6, "0", STR_PAD_LEFT);
-    }
-    $lkkeybase = $lkkey;
-    $sqlcmd = "INSERT INTO csvdcb(rfr, lat, lon) VALUES ('$lkkey'," .
-        (round($ptsy / 0.25) * 0.25) . "," . (round($ptsx / 0.25) * 0.25) . ");";
-    varLog($sqlcmd);
-    pg_query($db, $sqlcmd);
-    $sqlcmd = "INSERT INTO csvddf(rfr, lat, lon) VALUES ('$lkkey'," .
-        (round($ptsy / 0.25) * 0.25) . "," . (round($ptsx / 0.25) * 0.25) . ");";
-    varLog($sqlcmd);
-    pg_query($db, $sqlcmd);
     $lkkey = "";
     $rtfc = 0.5;
     if ($ptsy >= 0) {
@@ -191,140 +172,15 @@ if ($ACTION == "S20ACNDLK-INSACNDLK") {
     pg_query($db, "INSERT INTO csvdfc(rfr, lat, lon) VALUES ('$lkkey'," .
         $lat . "," . $lon . ");");
     $lkkeydws=$lkkey;
-/*
-    $lkkey = "";
-    $ptsy = $ptsy + 1;
-    if ($ptsy >= 0) {
-        $lkkey .= 'LTN' . str_pad((round(($ptsy + $rtfc) / 1) - $rtfc) * 1 * 1000, 5, "0", STR_PAD_LEFT);
-        $lat=round(($ptsy + $rtfc) / 1) - $rtfc;
-    } else {
-        $lkkey .= 'LTS' . str_pad((round(($ptsy + $rtfc) / -1) - $rtfc) * 1 * 1000, 5, "0", STR_PAD_LEFT);
-        $lat=-(round(($ptsy + $rtfc) / -1) - $rtfc);
-    }
-    if ($ptsx >= 0) {
-        $lkkey .= 'LNE' . str_pad((round(($ptsx + $rtfc) / 1) - $rtfc) * 1 * 1000, 6, "0", STR_PAD_LEFT);
-        $lon=round(($ptsx + $rtfc) / 1) - $rtfc;
-    } else {
-        $lkkey .= 'LNO' . str_pad((round(($ptsx + $rtfc) / -1) - $rtfc) * 1 * 1000, 6, "0", STR_PAD_LEFT);
-        $lon=-(round(($ptsx + $rtfc) / -1) - $rtfc);
-    }
-    pg_query($db, "INSERT INTO csvdgm(rfr, lat, lon) VALUES ('$lkkey'," .
-        $lat. "," . $lon . ");");
-    pg_query($db, "INSERT INTO csvdfc(rfr, lat, lon) VALUES ('$lkkey'," .
-        $lat . "," .$lon. ");");
-    $ptsy = $ptsy - 1;
-    $ptsx = $ptsx + 1;
-    $lkkey = "";
-    if ($ptsy >= 0) {
-        $lkkey .= 'LTN' . str_pad((round(($ptsy + $rtfc) / 1) - $rtfc) * 1 * 1000, 5, "0", STR_PAD_LEFT);
-        $lat=round(($ptsy + $rtfc) / 1) - $rtfc;
-    } else {
-        $lkkey .= 'LTS' . str_pad((round(($ptsy + $rtfc) / -1) - $rtfc) * 1 * 1000, 5, "0", STR_PAD_LEFT);
-        $lat=-(round(($ptsy + $rtfc) / -1) - $rtfc);
-    }
-    if ($ptsx >= 0) {
-        $lkkey .= 'LNE' . str_pad((round(($ptsx + $rtfc) / 1) - $rtfc) * 1 * 1000, 6, "0", STR_PAD_LEFT);
-        $lon=round(($ptsx + $rtfc) / 1) - $rtfc;
-    } else {
-        $lkkey .= 'LNO' . str_pad((round(($ptsx + $rtfc) / -1) - $rtfc) * 1 * 1000, 6, "0", STR_PAD_LEFT);
-        $lon=-(round(($ptsx + $rtfc) / -1) - $rtfc);
-    }
-    pg_query($db, "INSERT INTO csvdgm(rfr, lat, lon) VALUES ('$lkkey'," .
-        $lat. "," . $lon . ");");
-    pg_query($db, "INSERT INTO csvdfc(rfr, lat, lon) VALUES ('$lkkey'," .
-        $lat. "," . $lon. ");");
-    $ptsx = $ptsx - 1;
-*/
-    $sqlcmd = "INSERT INTO csvddf(rfr, dws, lat, lon) VALUES ('$lkkeybase','$lkkeydws'," .
-        (round($ptsy / 0.25) * 0.25) . "," . (round($ptsx / 0.25) * 0.25) . ");";
-    varLog($sqlcmd);
-    pg_query($db, $sqlcmd);
 
-    //pg_query($db, "BEGIN");
     $srm = $xml->ACNDLK;
-    $srm->RFR = $lkkeybase;
+    $srm->RFR = $lkkeydws;
     $srm->DWS = $lkkeydws;
     $srm->ARF = $curARF;
     $srm->MINX = $ptsx;
     $srm->MINY = $ptsy;
     $mmm = xmlInsert($srm);
-    updateMIP($mmm);
 }
-
-function updateMIP($mmm)
-{
-    global $db;
-    $QMFD = "SELECT * FROM acndlk WHERE xxx=" . $mmm . ";";
-    varLog($QMFD);
-    $rsMFD = pg_query($db, $QMFD);
-    while ($rowMFD = pg_fetch_assoc($rsMFD)) {
-
-
-        $Query = "DELETE from acnmip WHERE mmm=$mmm;";
-        pg_query($db, $Query);
-        $inSQL="";
-
-        $curdti = $rowMFD['dti'];
-        $curkci = $rowMFD['kci'];
-        $curdri = $rowMFD['dri'];
-        $curdrd = $rowMFD['drd'];
-        $curdrm = $rowMFD['drm'];
-        $curdrl = $rowMFD['drl'];
-        $currdi = $rowMFD['rdi'];
-        $currdm = $rowMFD['rdm'];
-        $curawc = $rowMFD['awc'];
-
-        $kca = $curkci;
-        $twa = $currdi * 1000 * $curawc;
-        $twb = ($currdm - $currdi) * 1000 * $curawc;
-        for ($i = 0; $i < $curdri; $i++) {
-            $dta = date_add(date_create($curdti), date_interval_create_from_date_string("$i days"));
-            if ($inSQL!="") $inSQL .= ",";
-            $inSQL .= '(' . $mmm .
-                ',\'' . date_format($dta, "Y-m-d") . '\',' . $kca . ',0,' . $twa . ',' . $twb . ')';
-        }
-
-        $inckc = ($rowMFD['kcm'] - $rowMFD['kci']) / $curdrd;
-        $incrd = ($rowMFD['rdm'] - $rowMFD['rdi']) / $curdrd;
-        for ($i = $curdri; $i < $curdri + $curdrd; $i++) {
-            $dta = date_add(date_create($curdti), date_interval_create_from_date_string("$i days"));
-            $kca = $kca + $inckc;
-            $twa = $twa + $incrd * 1000 * $curawc;
-            $twb = $twb - $incrd * 1000 * $curawc;
-            if ($inSQL!="") $inSQL .= ",";
-            $inSQL .= '(' . $mmm .
-                ',\'' . date_format($dta, "Y-m-d") . '\',' . $kca . ',' . $inckc . ',' . $twa . ',' . $twb . ')';
-        }
-
-        $twb = 0;
-        for ($i = $curdri + $curdrd; $i < $curdri + $curdrd + $curdrm; $i++) {
-            $dta = date_add(date_create($curdti), date_interval_create_from_date_string("$i days"));
-            if ($inSQL!="") $inSQL .= ",";
-            $inSQL .= '(' . $mmm .
-                ',\'' . date_format($dta, "Y-m-d") . '\',' . $kca . ',0,' . $twa . ',' . $twb . ')';
-        }
-
-        $inckc = ($rowMFD['kce'] - $rowMFD['kcm']) / $curdrl;
-        for ($i = $curdri + $curdrd + $curdrm; $i < $curdri + $curdrd + $curdrm + $curdrl; $i++) {
-            $dta = date_add(date_create($curdti), date_interval_create_from_date_string("$i days"));
-            $kca = $kca + $inckc;
-            if ($inSQL!="") $inSQL .= ",";
-            $inSQL .= '(' . $mmm .
-                ',\'' . date_format($dta, "Y-m-d") . '\',' . $kca . ',' . $inckc . ',' . $twa . ',' . $twb . ')';
-        }
-        $inSQL="INSERT INTO acnmip (mmm,dta,kca,kdi,twa,twb) VALUES " . $inSQL .";";
-        varLog($inSQL);
-        pg_query($db, $inSQL);
-    }
-}
-
-If ($ACTION == "S20ACNDLK-UPDACNDLK") {
-    $xml = simplexml_load_string($PARAM);
-    xmlUpdate($xml->ACNDLK);
-    $mmm = $xml->ACNDLK->XXX;
-    updateMIP($mmm);
-}
-
 
 If ($ACTION == "S20ACNDLK-DELACNDLK") {
     $Query = "DELETE FROM acndlk WHERE xxx='$PARAM';";

@@ -67,7 +67,7 @@ def ImportECMWFForecast(baspath, conn):
     localpath = baspath + ER4CSVINVFT2[1]["climaticfile"]
     dsg.append(xr.open_dataset(localpath, engine='cfgrib'))
     cur = conn.cursor()
-    for iin in range(0, 5, 1):
+    for iin in range(0, 1, 1):
         asqlcdm = ""
         cur.execute("SELECT xxx, rfr FROM csvdfc WHERE ste IS NULL ORDER BY rfr LIMIT 1;")
         cells = cur.fetchall()
