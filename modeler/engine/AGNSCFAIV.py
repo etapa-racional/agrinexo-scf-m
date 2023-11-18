@@ -31,9 +31,11 @@ def Forecast(baspath,conn):
         print("mstep")
         sqlcdmdws=""
         sqlcdmens=""
+        ftmyear=AGNSCFCFG.GetFSTyear()
+        ftmmonth=AGNSCFCFG.GetFSTmonth()
         for mstep in range(-43,1,1):
-            ftm = datetime.date(2023, 8, 1) + relativedelta(months=mstep)
-            itm = datetime.date(2023, 8, 1) + relativedelta(months=mstep-360)
+            ftm = datetime.date(ftmyear, ftmmonth, 1) + relativedelta(months=mstep)
+            itm = datetime.date(ftmyear, ftmmonth, 1) + relativedelta(months=mstep-360)
             stat00sql='SELECT (EXTRACT(Year From csvmgm.tms)*10 + DIV(EXTRACT(Month From csvmgm.tms)::numeric+2,3)) as tri, csvmgm.tms as tms,' \
                     'csvmgm.tmd - csvrgm.tmd as tmd, ' \
                     'csvmgm.tmx - csvrgm.tmx as tmx, ' \

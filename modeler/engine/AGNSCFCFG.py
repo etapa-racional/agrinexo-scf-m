@@ -17,3 +17,10 @@ def ConnectDatabase():
 def GetBasePath():
     baspath = "/var/opt/"
     return baspath
+
+def GetFSTyear():
+    return 2023
+
+def GetFSTmonth():
+    return 11
+
