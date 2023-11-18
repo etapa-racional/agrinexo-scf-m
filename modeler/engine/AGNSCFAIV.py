@@ -19,17 +19,15 @@ def Forecast(baspath,conn):
                 "LIMIT 1;")
     res = cur.fetchone()
     if res is not None:
+        print("aiv")
         mmmdws = res['xxxdfc']
         dws = res['dws']
         cur.execute("UPDATE csvdfc SET sta=FALSE WHERE rfr='" + dws + "';")
         conn.commit()
         sqlcdm='DELETE FROM csvmfc WHERE mmm=' + str(mmmdws) + ' AND fsr=\'A\';' + \
-               'DELETE FROM csvmfc WHERE mmm=' + str(mmmdws) + ' AND fsr=\'B\';'
-        try:
-            cur.execute(sqlcdm)
-        except psycopg2.Error:
-            print(sqlcdm)
-            quit()
+               'DELETE FROM csvmfc WHERE mmm=' + str(mmmdws) + ' AND fsr=\'B\';' + \
+               'DELETE FROM csvmfc WHERE mmm=' + str(mmmdws) + ' AND fsr=\'C\';'
+        cur.execute(sqlcdm)
         print("mstep")
         sqlcdmdws=""
         sqlcdmens=""
@@ -376,24 +374,16 @@ def Forecast(baspath,conn):
                                     ',\'' + str(statrw['tms']) + '\',\'' + str(statrw['ftm']) + \
                                     '\',\'C\') '
 
-        try:
-            #input("...")
-            print(sqlcdmdws)
-            sqlcdmdws = sqlcdmdws +';'
-            cur.execute(sqlcdmdws)
-        except psycopg2.Error:
-            print("Error")
-            quit()
+        #input("...")
+        print(sqlcdmdws)
+        sqlcdmdws = sqlcdmdws +';'
+        cur.execute(sqlcdmdws)
 
-        try:
-            print(sqlcdmens)
-            sqlcdmens = sqlcdmens +';'
-            cur.execute(sqlcdmens)
-        except psycopg2.Error:
-            print("Error")
-            quit()
+        print(sqlcdmens)
+        sqlcdmens = sqlcdmens +';'
+        cur.execute(sqlcdmens)
 
         cur.execute("UPDATE csvdfc SET sta=TRUE WHERE rfr='" + dws + "';")
-    cur.close()
+        cur.close()
 
 Forecast(AGNSCFCFG.GetBasePath(),AGNSCFCFG.ConnectDatabase())
