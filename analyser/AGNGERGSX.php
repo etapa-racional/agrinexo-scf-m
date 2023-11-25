@@ -34,10 +34,9 @@ date_default_timezone_set("Europe/Lisbon");
 //throw new Exception('Uncaught Exception occurred');
 
 $g_SEXP = 3600 * 24;
-$d_SVK = "TYSYHBR";
 
 require("AGNGERCFG.php");
-$db = pg_pconnect("host=" . $servername . " dbname=" . $g_DBN . " user=" . $username . " password=" . $password);
+$db = pg_connect("host=" . $servername . " dbname=" . $g_DBN . " user=" . $username . " password=" . $password);
 
 if (isset($_COOKIE["AGNUSR"]) & isset($_COOKIE["AGNSTM"]) & isset($_COOKIE["AGNSSA"])) {
     $p_AUT = 1 * $_COOKIE["AGNUSR"];

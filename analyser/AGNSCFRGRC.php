@@ -222,21 +222,6 @@ include "AGNGERGSX.php";
                 PTX: e[0].toString(),
                 PTY: e[1].toString()
             });
-            ptxdataSource.push({
-                IDP: "0",
-                PTX: (e[0] + 0.0001).toString(),
-                PTY: (e[1] + 0.0001).toString()
-            });
-            ptxdataSource.push({
-                IDP: "0",
-                PTX: e[0].toString(),
-                PTY: (e[1] + 0.0001).toString()
-            });
-            ptxdataSource.push({
-                IDP: "0",
-                PTX: e[0].toString(),
-                PTY: e[1].toString()
-            });
             $("#edit_record_orig_xxx").val("");
             $("#edit_record_dest_xxx").val("");
 
@@ -250,14 +235,16 @@ include "AGNGERGSX.php";
                 console.log("A removed");
             };
             $.getJSON("AGNSCFDLK.php?map=mapg", function (data) {
-                ALayer = L.geoJson(data).addTo(lmap);
+                ALayer = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(lmap);
             })  ;
+            /*
             if (BLayer !== null) {
                 lmap.removeLayer(BLayer);
             };
             $.getJSON("AGNSCFDLK.php?map=map", function (data) {
                 BLayer = L.geoJson(data, {onEachFeature: onEachFeature}).addTo(lmap);
             })
+            */
         }
 
         window.agnrefetch = refetch;

@@ -40,7 +40,7 @@ if ($_GET['map'] == "map") {
 if ($_GET['map'] == "mapg") {
 
     $map = "";
-    $QDFD = "select distinct csvdgm.xxx,csvdgm.rfr, round(minx/1)*1 AS minx, round(miny/1)*1 AS miny ".
+    $QDFD = "select distinct csvdgm.xxx, dws, round(minx*2)/2 AS minx, round(miny*2)/2 AS miny ".
             "From acndlk INNER JOIN csvdgm ON acndlk.dws=csvdgm.rfr;";
     $rsDFD = pg_query($db, $QDFD);
 
@@ -57,6 +57,7 @@ if ($_GET['map'] == "mapg") {
         "id":"' . $rowDFD['rfr'] . '",
         "properties":
         {"name":"' . $rowDFD['rfr'] . '",
+        "dws":"' . $rowDFD['dws'] . '",
         "users":' . $rowDFD['xxx'] . '}
         ,"geometry":
         {"type":"Polygon",
@@ -140,9 +141,6 @@ if ($ACTION == "S20ACNDLK-INSACNDLK") {
         $strpolig .= $child->PTX . " " . $child->PTY;
         $ptscount++;
     }
-    if ($ptscount < 3) {
-        throw new Exception('Location not defined.');
-    }
     $ptsx = $ptsx / $ptscount;
     $ptsy = $ptsy / $ptscount;
 
@@ -177,8 +175,8 @@ if ($ACTION == "S20ACNDLK-INSACNDLK") {
     $srm->RFR = $lkkeydws;
     $srm->DWS = $lkkeydws;
     $srm->ARF = $curARF;
-    $srm->MINX = $ptsx;
-    $srm->MINY = $ptsy;
+    $srm->MINX = $lon;
+    $srm->MINY = $lat;
     $mmm = xmlInsert($srm);
 }
 

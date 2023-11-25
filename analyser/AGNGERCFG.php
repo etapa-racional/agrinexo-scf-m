@@ -1,4 +1,5 @@
 <?php
+$d_SVK ="XAFGTRY";
 $modelerAPI="http://agrinexo-scf-m-etapa-racional-dev.apps.sandbox-m2.ll9k.p1.openshiftapps.com/runCommandUPD";
 $p_AUT="0"; //Enables unauthenticated users to request new forecasts. Set to "" in production.
 $logpath="/var/opt/analyser/";

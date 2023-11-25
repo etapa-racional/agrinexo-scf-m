@@ -398,7 +398,7 @@
             var pastdaydate = pastday.getFullYear();
             $("#param_DFD").val(parent.curagf.fid);
             $("#param_DET").val(parent.curagf.dws);
-            $("#param_FSR").val("N");
+            $("#param_FSR").val("C");
             curMMM = parent.curagf.xxx;
             lat = parent.curagf.miny;
             lon = parent.curagf.minx;

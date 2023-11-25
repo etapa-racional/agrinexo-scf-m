@@ -2,7 +2,7 @@
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-$d_SVK="TYSYHBR";
+require("AGNGERCFG.php");
 $p_SPI = time();
 setcookie("AGNSPI", "$p_SPI",$p_SPI+1200);
 $p_SPA = md5($p_SPI.$d_SVK);
