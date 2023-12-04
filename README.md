@@ -20,6 +20,8 @@ If you are developing climate related forecast models, you can fork AGRINEXO SCF
 
 Seasonal forecasts based on [ECMWF](https://www.ecmwf.int/) and [NCEP](https://www.weather.gov/ncep/) models are derived from [Seasonal forecast anomalies on single levels](https://cds.climate.copernicus.eu/cdsapp#!/dataset/seasonal-postprocessed-single-levels?tab=overview) and climatic data is derived from [ERA5 monthly averaged data on single levels from 1959 to present](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels-monthly-means), both available from the [Copernicus Climate Change Service]( https://climate.copernicus.eu/) as open data.
 
+![AGRINEXO SCF Data Sources and Containers](https://agrinexo.com/en/rwst/images/I131-AGRINEXO-SCF-DIAGRAM.PNG)
+
 Seasonal forecasting methods can be broadly categorized into dynamical (based on physical principles), empirical (based on the observed statistical relations between the variables) and hybrid (including considerations based on physical principles, combined with the observed statistical relations between the variables). For forecasting large-scale spatial patterns, machine learning-based empirical models are capable of competing with or outperforming existing dynamical models [2].
 
 AGRINEXO seasonal forecasts are empirical forecasts, obtained by training a Support Vector Regression model on a dataset comprising the 22.5-67.5-degrees North and South sections of a global grid climate time-series and a 1-degree grid cell climate time-series of the specific forecast location.
