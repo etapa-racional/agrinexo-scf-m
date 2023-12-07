@@ -213,7 +213,7 @@
                 "lifecycle": {
                   "postStart":{
                     "exec":{
-                      "command": ["/bin/sh", "-c", "pyhton3 agrinexo-scf-update.py"]
+                      "command": ["/bin/sh", "-c", "mkdir todoinit"]
                     }
                   }
                 },
