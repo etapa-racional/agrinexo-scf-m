@@ -24,7 +24,7 @@ Seasonal forecasts based on [ECMWF](https://www.ecmwf.int/) and [NCEP](https://w
 
 Seasonal forecasting methods can be broadly categorized into dynamical (based on physical principles), empirical (based on the observed statistical relations between the variables) and hybrid (including considerations based on physical principles, combined with the observed statistical relations between the variables). For forecasting large-scale spatial patterns, machine learning-based empirical models are capable of competing with or outperforming existing dynamical models [2].
 
-AGRINEXO seasonal forecasts are empirical forecasts, obtained by training a Support Vector Regression model on a dataset comprising the 22.5-67.5-degrees North and South sections of a global grid climate time-series and a 1-degree grid cell climate time-series of the specific forecast location. Each forecast is based on the previous 36 months, to encompass effects that are not traceable in the prevailing conditions over the last year [3], but that appear to be relevant for the forecast.
+AGRINEXO seasonal forecasts are empirical forecasts, obtained by training a Support Vector Regression model on a dataset comprising the 22.5-67.5 degrees North and South sections of a 45 degrees global grid climate time-series and a 1 degree grid cell climate time-series of the specific forecast location. Each forecast is based on the previous 36 months, to encompass effects that are not traceable in the prevailing conditions over the last year [3], but that appear to be relevant for the forecast.
 
 ## What's next for AGRINEXO SCF
 
