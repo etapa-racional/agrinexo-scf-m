@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="rger/sta/estilo.css" media="screen">
     <link rel="stylesheet" href="rger/leaflet/leaflet.css"/>
     <script src="rger/leaflet/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="rger/apexcharts/dist/apexcharts.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
