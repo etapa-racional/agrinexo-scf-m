@@ -10,7 +10,7 @@ Agricultural production losses resulting from drought and heatwaves are largely 
 
 AGRINEXO SCF is a seasonal climate forecast modeler, estimating key climatic parameters for the next six months and enabling for the comparison and combination of seasonal forecasts based on diverse climatic models.
 
-AGRINEXO SCF estimates and evaluates the forecast skill of monthly precipitation, monthly average maximum temperature, monthly average mean temperature, and monthly average minimum temperature. Ensemble C, which comprises 58.33% of ECMWF forecast, 20.83% of NCEP forecast and 20.83% of AGRINEXO forecast, provides an improved forecast skill.
+AGRINEXO SCF estimates and evaluates the forecast skill of monthly precipitation, monthly average maximum temperature, monthly average mean temperature, and monthly average minimum temperature. Ensemble C, which comprises 58% of ECMWF forecast, 21% of NCEP forecast and 21% of AGRINEXO forecast, provides an improved forecast skill.
 
 If you just want a seasonal climate forecast for a specific area of interest or curious about its forecast skill, you can check Ensemble C forecasts at [agrinexo.com](https://agrinexo.com/scf/analyser/). The current pre-release version of AGRINEXO SCF is being tested over a sample of geographic locations comprising about a thousand locations (one degree grid cells). If your specific area of interest is not included in our sample, just add it using the add marker tool on top left of the map and it should be ready in a couple of minutes.
 
